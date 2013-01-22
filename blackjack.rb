@@ -1,4 +1,3 @@
-
 module Blackjack
   class Card
     SUITS = { spade: "\u2660",
@@ -44,7 +43,7 @@ module Blackjack
     end
 
     def initialize(suit, value)
-      @suit = suit
+      @suit = suit          #Vincent - an option is to 1-line these assignment statements.
       @value = value
     end
 
@@ -57,7 +56,7 @@ module Blackjack
 
   class Deck
     def self.all_cards
-      Card.suits.product(Card.values).map do |suit, value|
+      Card.suits.product(Card.values).map do |suit, value|    #Vincent - option to 1-line this with {} instead of do/end.
         Card.new(suit, value)
       end
     end
@@ -99,7 +98,7 @@ module Blackjack
 
     def points
       points = 0
-      aces = 0
+      aces = 0      #Vincent - variable name could be more clear as num_aces
 
       @cards.each do |card|
         card.value == :ace ? aces += 1 : points += card.blackjack_value
