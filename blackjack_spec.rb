@@ -29,11 +29,11 @@ describe Deck do
   let(:card1) { double('card1', suit: :club, value: :five) }
   let(:card2) { double('card1', suit: :club, value: :six) }
 
-  describe '#initialize' do
+  describe '#initialize' do                     #Vincent - could also check that the 52 cards are unique.
     it 'defaults to a full deck' do
       deck.cards.should have(52).items
     end
-
+                    
     context 'when an array of cards is given' do
       subject(:deck) { Deck.new([card1, card2]) }
       its(:cards) { should =~ [card1, card2] }
@@ -46,8 +46,8 @@ describe Deck do
       deck.take_out(2).should =~ [card1, card2]
     end
 
-    it 'removes n cards from the top of the deck' do
-      deck.take_out(2)
+    it 'removes n cards from the top of the deck' do    #Vincent - could test this on a deck with more than 2 cards
+      deck.take_out(2)                                  # to really know that the cards are coming off the right direction of the deck.
       deck.cards.should be_empty
     end
   end
@@ -56,8 +56,8 @@ describe Deck do
     subject(:deck) { Deck.new([card1]) }
     let(:card3) { double('card3', suit: :club, value: :seven) }
     it 'returns cards to the bottom of the deck' do
-      deck.return([card2, card3])
-      deck.cards.should == [card2, card3, card1]
+      deck.return([card2, card3])                     #Vincent - you could write the spec to allow for more flexibility
+      deck.cards.should == [card2, card3, card1]      # if the cards returned were [card 3, card 2, card1]
     end
   end
 
@@ -99,9 +99,9 @@ describe Hand do
       expect { hand.hit(deck) }.to change { hand.cards.count }.to(1)
     end
 
-    context 'when busted' do
-      before(:each) do
-        deck.stub(:take_out) { [card1, card2] }
+    context 'when busted' do                    #Vincent - this is a little bit confusing because your deck only
+      before(:each) do                          # has 3 cards. Could confuse whether the error is because of trying 
+        deck.stub(:take_out) { [card1, card2] } # to hit while busted, or while trying to hit with deck empty?
         hand.deal(deck)
         deck.stub(:take_out) { [card3] }
         hand.hit(deck)
@@ -152,9 +152,9 @@ describe Hand do
       end
 
       it 'handles multiple aces' do
-        cards = [Card.new(:club, :ace),
+        cards = [Card.new(:club, :ace),           
                  Card.new(:club, :two),
-                 Card.new(:club, :ace),
+                 Card.new(:club, :ace),         #Vincent - should not have duplicate card!
                  Card.new(:heart, :three)]
         deck = Deck.new(cards)
         hand.deal(deck)
